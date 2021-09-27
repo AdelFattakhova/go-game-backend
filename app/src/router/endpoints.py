@@ -1,12 +1,12 @@
 import datetime
 from typing import List
 
-from fastapi import Query, Request, status
+from fastapi import Query, Request, status, HTTPException
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 
-from app.src.service.authorization.authorization import authorize
+from app.src.service.authorization.authorization import signup, login
 
 app = APIRouter()
 FROM_DATE = 'from'
@@ -25,4 +25,19 @@ async def get_authorized(cnums: List[str] = Query(['412740', '427913']),
                                                                             alias=FROM_DATE),
                                        to_date: datetime.datetime = Query('2021-04-29T13:05:34Z',
                                                                           alias=TO_DATE)):
-    return authorize()
+    return None #authorize()
+
+
+@app.post("/signup", tags=['auth'])
+async def post_signup(email: str, password: str):
+    return signup(email=email, password=password)
+
+
+@app.post("/login", tags=['auth'])
+async def post_login(email: str, password: str):
+    try:
+        return login(email=email, password=password)
+    except:
+        raise HTTPException(status_code=401, detail="Invalid password!")
+
+
