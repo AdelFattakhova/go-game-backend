@@ -5,6 +5,7 @@ from fastapi import Query, Request, status, HTTPException
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
+from requests import HTTPError
 
 from app.src.service.authorization.authorization import signup, login
 
@@ -30,14 +31,17 @@ async def get_authorized(cnums: List[str] = Query(['412740', '427913']),
 
 @app.post("/signup", tags=['auth'])
 async def post_signup(email: str, password: str):
-    return signup(email=email, password=password)
+    try:
+        return signup(email=email, password=password)
+    except HTTPError as e:
+        raise HTTPException(e.errno, e.strerror)
 
 
 @app.post("/login", tags=['auth'])
 async def post_login(email: str, password: str):
     try:
         return login(email=email, password=password)
-    except:
-        raise HTTPException(status_code=401, detail="Invalid password!")
+    except HTTPError as e:
+        raise HTTPException(e.errno, e.strerror)
 
 
