@@ -21,6 +21,13 @@ def login(email: str, password: str):
         handle_http_error(e)
 
 
+def restore_password(email: str):
+    try:
+        return auth.send_password_reset_email(email=email)
+    except HTTPError as e:
+        handle_http_error(e)
+
+
 def handle_http_error(error: HTTPError):
     response = json.loads(error.args[0].response.text, object_hook=Generic.from_dict)
     raise HTTPError(response.error.code, response.error.message)

@@ -7,11 +7,12 @@ from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from requests import HTTPError
 
-from app.src.service.authorization.authorization import signup, login
+from app.src.service.authorization.authorization import signup, login, restore_password
 
 app = APIRouter()
 FROM_DATE = 'from'
 TO_DATE = 'to'
+
 
 def validation_exception_handler(request: Request, exc: ValueError):
     return JSONResponse(
@@ -44,4 +45,11 @@ async def post_login(email: str, password: str):
     except HTTPError as e:
         raise HTTPException(e.errno, e.strerror)
 
+
+@app.post("/restore_password", tags=['auth'])
+async def post_restore_password(email: str):
+    try:
+        return restore_password(email=email)
+    except HTTPError as e:
+        raise HTTPException(e.errno, e.strerror)
 
