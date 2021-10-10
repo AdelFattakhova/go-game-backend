@@ -4,13 +4,14 @@ from logging.config import dictConfig
 from fastapi import FastAPI
 
 
-
-from app.src.router.endpoints import validation_exception_handler
-
 tags_metadata = [
     {
         "name": "auth",
         "description": "Authorization"
+    },
+    {
+        "name": "game",
+        "description": "Game"
     }
 ]
 
@@ -49,13 +50,14 @@ def create_app():
         description="The documentation of Mobile Go Game API",
         openapi_tags=tags_metadata)
 
-    from router.endpoints import app as routers
+    from router.authorization_controller import app as auth_routers
+    from router.game_controller import app as game_routers
 
-    app.include_router(routers)
-
-    app.add_exception_handler(ValueError, validation_exception_handler)
+    app.include_router(auth_routers)
+    app.include_router(game_routers)
 
     return app
+
 
 app = create_app()
 
