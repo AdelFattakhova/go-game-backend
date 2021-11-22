@@ -3,6 +3,7 @@ from logging.config import dictConfig
 
 from fastapi import FastAPI
 
+from starlette.middleware.sessions import SessionMiddleware
 
 tags_metadata = [
     {
@@ -49,6 +50,8 @@ def create_app():
         title="Go game",
         description="The documentation of Mobile Go Game API",
         openapi_tags=tags_metadata)
+
+    app.add_middleware(SessionMiddleware, secret_key='!secret')
 
     from router.authorization_controller import app as auth_routers
     from router.game_controller import app as game_routers
