@@ -53,8 +53,8 @@ def create_app():
 
     app.add_middleware(SessionMiddleware, secret_key='!secret')
 
-    from router.authorization_controller import app as auth_routers
-    from router.game_controller import app as game_routers
+    from app.src.router.authorization_controller import app as auth_routers
+    from app.src.router.game_controller import app as game_routers
 
     app.include_router(auth_routers)
     app.include_router(game_routers)

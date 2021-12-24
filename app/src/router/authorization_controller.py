@@ -4,9 +4,9 @@ from starlette.responses import RedirectResponse
 from starlette.requests import Request
 
 from app.src.service.authorization.authorization import signup, login, restore_password
-from router.base_controller import app
+from app.src.router.base_controller import app
 
-from util.firebase import oauth
+from app.src.util.firebase import oauth
 
 
 @app.post("/signup", tags=['auth'])

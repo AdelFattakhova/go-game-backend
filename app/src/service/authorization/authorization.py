@@ -1,8 +1,8 @@
 from requests import HTTPError
 import json
 
-from util.json_base import Generic
-from util.firebase import firebase_instance
+from app.src.util.json_base import Generic
+from app.src.util.firebase import firebase_instance
 
 auth = firebase_instance.auth()
 

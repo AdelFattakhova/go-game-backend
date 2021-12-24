@@ -1,8 +1,8 @@
 from fastapi import Query, Request, status, HTTPException
 from requests import HTTPError
 
-from router.base_controller import app
-from service.game.game import create_game, RulesEnum, BoardSizeEnum, find_game_by_code, send_move, end_game
+from app.src.router.base_controller import app
+from app.src.service.game.game import create_game, RulesEnum, BoardSizeEnum, find_game_by_code, send_move, end_game
 
 
 @app.post("/create_game", tags=['game'])
