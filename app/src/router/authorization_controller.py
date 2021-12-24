@@ -9,6 +9,16 @@ from app.src.router.base_controller import app
 from app.src.util.firebase import oauth
 
 
+@app.errorhandler(404)
+def not_found(e):
+    return app.send_static_file("index.html")
+
+
+@app.route('/favicon.ico', methods=["GET"])
+def favicon():
+    return app.send_static_file('favicon.ico')
+
+
 @app.post("/signup", tags=['auth'])
 async def post_signup(email: str, password: str):
     try:
